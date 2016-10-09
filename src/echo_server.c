@@ -26,6 +26,10 @@ int main(int argc, char *argv[])
     error("bind err");
   }
 
+  if (listen(listener_d, 1) == -1) {
+    error("listen err");
+  }
+
   puts("wait...");
   while(1) {
   }
