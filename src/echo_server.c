@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 
 void error(char *msg)
 {
@@ -38,6 +39,8 @@ int main(int argc, char *argv[])
     if (connect_d == -1) {
       error("accept err");
     }
+
+    close(connect_d);
   }
   return 0;
 }
