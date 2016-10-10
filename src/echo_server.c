@@ -40,6 +40,9 @@ int main(int argc, char *argv[])
       error("accept err");
     }
 
+    char *msg = "Hello World!\r\n";
+    write(connect_d, msg, strlen(msg));
+
     close(connect_d);
   }
   return 0;
