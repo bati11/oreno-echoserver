@@ -12,6 +12,22 @@ void error(char *msg)
   exit(1);
 }
 
+int read_line(int socket, char *buf, int len)
+{
+  char *s = buf;
+  int slen = len;
+  int c = read(socket, s, slen);
+  while ((c > 0) && (s[c - 1] != '\n')) {
+    s += c;
+    slen = -c;
+    c = read(socket, s, slen);
+  }
+  if (c < 0) {
+    return c;
+  }
+  return len - slen;
+}
+
 int main(int argc, char *argv[])
 {
   int listener_d = socket(PF_INET, SOCK_STREAM, 0);
@@ -32,6 +48,8 @@ int main(int argc, char *argv[])
   }
 
   puts("wait...");
+
+  char buf[255];
   while(1) {
     struct sockaddr_storage client_addr;
     unsigned int address_size = sizeof(client_addr);
@@ -42,6 +60,10 @@ int main(int argc, char *argv[])
 
     char *msg = "Hello World!\r\n";
     write(connect_d, msg, strlen(msg));
+
+    read_line(connect_d, buf, sizeof(buf));
+
+    write(connect_d, buf, strlen(buf));
 
     close(connect_d);
   }
