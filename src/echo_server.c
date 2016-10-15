@@ -58,13 +58,17 @@ int main(int argc, char *argv[])
       error("accept err");
     }
 
-    char *msg = "Hello World!\r\n";
-    write(connect_d, msg, strlen(msg));
+    if (fork() == 0) {
+      char *msg = "Hello World!\r\n";
+      write(connect_d, msg, strlen(msg));
 
-    read_line(connect_d, buf, sizeof(buf));
+      read_line(connect_d, buf, sizeof(buf));
 
-    write(connect_d, buf, strlen(buf));
+      write(connect_d, buf, strlen(buf));
 
+      close(connect_d);
+      exit(0);
+    }
     close(connect_d);
   }
   return 0;
