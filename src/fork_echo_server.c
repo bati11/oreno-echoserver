@@ -75,10 +75,11 @@ int main(int argc, char *argv[])
 
   puts("wait...");
 
+  struct sockaddr_storage client_addr;
+  unsigned int address_size = sizeof(client_addr);
+
   char buf[255];
   while(1) {
-    struct sockaddr_storage client_addr;
-    unsigned int address_size = sizeof(client_addr);
     int connect_d = accept(listener_d, (struct sockaddr *)&client_addr, &address_size);
     if (connect_d < 0) {
       if (errno == EINTR) {
