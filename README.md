@@ -1,3 +1,4 @@
 oreno-echoserver
 ==============
-勉強用
+
+For studying.
